@@ -655,3 +655,8 @@ SELECT r.resource_id, r.resource_category_id, rc.resource_category_name, ri.reso
 						LEFT JOIN resource_categories rc ON rc.resource_category_id = r.resource_category_id
 						LEFT JOIN resource_items ri ON ri.resource_id = r.resource_id
 						LEFT JOIN audit a ON a.audit_id = r.audit_id
+SELECT re.resource_id, re.userid, re.evaluate_content, re.score, re.evaluate_time, u.account
+						FROM resource_evaluate re
+						LEFT JOIN users u ON u.userid = re.userid
+						WHERE re.resource_id = ?
+SELECT AVG(score) AS avg_grade FROM resource_evaluate WHERE 
