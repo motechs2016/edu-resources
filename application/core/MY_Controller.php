@@ -31,6 +31,30 @@ class Admin_Controller extends MY_Controller{
 		$this->load->library('pagination');
 		$this->load->helper('url');
 		
+		$this->load->library('menu');
+		$this->load->library('user');
+		
+		//get menu by account
+		$account = $this->session->userdata('account');
+		if(isset($account))
+		{
+			$user = $this->user->getUserByAccount($account);
+			$cate_id = $user['acc_category_id'];
+		}
+		else
+		{
+		//if account is not exit, default as a visitor, have the authority same as student
+			$account = 'Visitor';
+			$cate_id = 3;
+		}
+		
+		//get menu info by authority and level
+		$pmenu = $this->menu->getMenuByCaidLevel($cate_id, 1);
+		$cmenu = $this->menu->getMenuByCaidLevel($cate_id, 2);
+		
+		$this->cismarty->assign('user', $user);
+		$this->cismarty->assign('pmenu', $pmenu);
+		$this->cismarty->assign('cmenu', $cmenu);
 	}	
 }
 
