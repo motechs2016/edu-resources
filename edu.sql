@@ -426,7 +426,7 @@ INSERT INTO privilege_setting VALUES('3','0201','2');
 INSERT INTO privilege_setting VALUES('3','0202','2');
 INSERT INTO privilege_setting VALUES('3','0203','2');
 INSERT INTO privilege_setting VALUES('3','0204','2');
-INSERT INTO privilege_setting VALUES('3','03','2');
+INSERT INTO privilege_setting VALUES('3','03','1');
 INSERT INTO privilege_setting VALUES('3','0301','1');
 INSERT INTO privilege_setting VALUES('3','0302','1');
 INSERT INTO privilege_setting VALUES('3','0303','1');
@@ -610,10 +610,10 @@ ALTER TABLE resource_evaluate ADD
 CONSTRAINT FK_resource_evaluate FOREIGN KEY(userid) REFERENCES users(userid)
 
 /********************others****************************************/
-SELECT m.menu_id, m.menu_title, m.url, m.is_parent_node, m.parent_id, m.level
+SELECT m.menu_id, m.menu_title, m.url, m.is_parent_node, m.parent_id, m.level,privi_id
 						FROM menu m
 						LEFT JOIN privilege_setting ps ON m.menu_id = ps.menu_id
-						WHERE acc_category_id = 1 AND LEVEL = 2 AND privi_id = 1
+						WHERE acc_category_id = 3 AND LEVEL = 1 AND privi_id = 1
 SELECT MAX(LEVEL) AS LEVEL FROM courses_categories
 
 SELECT c.course_id, c.course_name, c.english_name, c.c_category_id,
@@ -660,3 +660,6 @@ SELECT re.resource_id, re.userid, re.evaluate_content, re.score, re.evaluate_tim
 						LEFT JOIN users u ON u.userid = re.userid
 						WHERE re.resource_id = ?
 SELECT AVG(score) AS avg_grade FROM resource_evaluate WHERE 
+SELECT u.userid, u.account, u.acc_category_id, ac.acc_categoty_name
+						FROM users u
+						LEFT JOIN account_categories ac ON u.acc_category_id = ac.acc_category_id

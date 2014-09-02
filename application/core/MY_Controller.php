@@ -31,15 +31,16 @@ class Admin_Controller extends MY_Controller{
 		$this->load->library('pagination');
 		$this->load->helper('url');
 		
-		$this->load->library('menu');
-		$this->load->library('user');
+		$this->load->model('Menu');
+		$this->load->model('User');
 		
 		//get menu by account
 		$account = $this->session->userdata('account');
-		if(isset($account))
+		if($account != '')
 		{
-			$user = $this->user->getUserByAccount($account);
-			$cate_id = $user['acc_category_id'];
+			$user = $this->User->getUserByAccount($account);
+			$cate_id = $user->acc_category_id;
+			//$cate_id = 3;
 		}
 		else
 		{
@@ -49,12 +50,13 @@ class Admin_Controller extends MY_Controller{
 		}
 		
 		//get menu info by authority and level
-		$pmenu = $this->menu->getMenuByCaidLevel($cate_id, 1);
-		$cmenu = $this->menu->getMenuByCaidLevel($cate_id, 2);
+		$pmenu = $this->Menu->getMenuByCaidLevel($cate_id, 1);
+		$cmenu = $this->Menu->getMenuByCaidLevel($cate_id, 2);
 		
-		$this->cismarty->assign('user', $user);
-		$this->cismarty->assign('pmenu', $pmenu);
-		$this->cismarty->assign('cmenu', $cmenu);
+		$this->cismarty->assign('account', $account);
+		$this->cismarty->assign('pmenus', $pmenu);
+		$this->cismarty->assign('cmenus', $cmenu);
+		
 	}	
 }
 

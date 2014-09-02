@@ -10,7 +10,7 @@
 	 * @author Chong Liu
 	 * @copyright 2014 Ivory Tower
 	 */
-	class Resource{
+	class Resource extends CI_Model{
 		
 		/**
 		 * The "Best Guess" Remote IP of the client
@@ -21,6 +21,8 @@
 		
 		public function __construct()
 		{
+			parent::__construct();
+			
 			// Figure out the remote IP
 			$remoteIP = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null);
 			if (strstr($remoteIP, ','))
@@ -49,7 +51,7 @@
 			
 			$courses = $this->db->query($sql);
 			
-			return $courses;
+			return $courses->result();
 		}
 		
 		/**
@@ -72,7 +74,7 @@
 			
 			$course = $this->db->query($sql, $sqlParam);
 			
-			return $course;
+			return $course->row();
 		}
 		
 		/**
@@ -112,7 +114,7 @@
 				$course = $this->db->query($sql, $sqlParam);
 			}		
 				
-			return $course;
+			return $course->result();
 		}
 		
 		/**
@@ -126,7 +128,7 @@
 			$sql = "SELECT c_category_id, c_category_name, parent_id, is_parent_node, level
 						FROM courses_categories";
 				
-			return $this->db->query($sql);
+			return $this->db->query($sql)->result();
 		}
 		
 		/**
@@ -143,7 +145,7 @@
 			
 			$sqlParam = array($level);
 			
-			return $this->db->query($sql, $sqlParam);
+			return $this->db->query($sql, $sqlParam)->result();
 		}
 		
 		/**
@@ -160,7 +162,7 @@
 			
 			$sqlParam = array($courseID);
 			
-			return $this->db->query($sql);
+			return $this->db->query($sql)->result();
 		}
 		
 		/**
@@ -174,7 +176,7 @@
 			$sql = "SELECT resource_category_id, resource_category_name, parent_id, is_parent_node, level
 						FROM resource_categories";
 		
-			return $this->db->query($sql);
+			return $this->db->query($sql)->result();
 		}
 		
 		/**
@@ -191,7 +193,7 @@
 				
 			$sqlParam = array($level);
 				
-			return $this->db->query($sql, $sqlParam);
+			return $this->db->query($sql, $sqlParam)->result();
 		}
 		
 		/**
@@ -209,7 +211,7 @@
 						LEFT JOIN resource_items ri ON ri.resource_id = r.resource_id
 						LEFT JOIN audit a ON a.audit_id = r.audit_id";
 			
-			return $this->db->query($sql);
+			return $this->db->query($sql)->result();
 		}
 		
 		/**
@@ -231,7 +233,7 @@
 			
 			$sqlParam = array($resourceID);
 				
-			return $this->db->query($sql, $sqlParam);
+			return $this->db->query($sql, $sqlParam)->result();
 		}
 		
 		/**
@@ -253,7 +255,7 @@
 				
 			$sqlParam = array($courceID);
 		
-			return $this->db->query($sql, $sqlParam);
+			return $this->db->query($sql, $sqlParam)->result();
 		}
 		
 		/**
@@ -276,7 +278,7 @@
 		
 			$sqlParam = array($courceID, $chapterID);
 		
-			return $this->db->query($sql, $sqlParam);
+			return $this->db->query($sql, $sqlParam)->result();
 		}
 		
 		/**
@@ -298,7 +300,7 @@
 		
 			$sqlParam = array($RCID);
 		
-			return $this->db->query($sql, $sqlParam);
+			return $this->db->query($sql, $sqlParam)->result();
 		}
 		
 		/**
@@ -313,7 +315,7 @@
 			
 			$sqlParam = array($resourceID);
 			
-			return $this->db->query($sql);
+			return $this->db->query($sql)->result();
 		}
 		
 		/**
@@ -331,7 +333,7 @@
 				
 			$sqlParam = array($resourceID);
 				
-			return $this->db->query($sql);
+			return $this->db->query($sql)->result();
 		}
 		
 		/**
@@ -346,9 +348,9 @@
 			
 			$sqlParam = array($resourceID);
 			
-			$result = $this->db->query($sql, $sqlParam);
+			$result = $this->db->query($sql, $sqlParam)->row();
 			
-			return $result['avg_grade'];
+			return $result->avg_grade;
 		}
 		
 		/**
@@ -361,11 +363,11 @@
 		{
 			$sql = "SELECT MAX(level) AS level From {$table}";
 				
-			$level = $this->db->query($sql);
+			$level = $this->db->query($sql)->row();
 				
-			return $level;
+			return $level->level;
 		}
 	}
 	
 /* End of file Resource.php */
-/* Location: ./application/libraries/Resource.php */
+/* Location: ./application/models/Resource.php */

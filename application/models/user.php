@@ -11,7 +11,7 @@
 	 * @author Chong Liu
 	 * @copyright 2014 Ivory Tower
 	 */
-	class User{
+	class User extends CI_Model{
 		
 		/**
 		 * The "Best Guess" Remote IP of the client
@@ -22,6 +22,8 @@
 		
 		public function __construct()
 		{
+			parent::__construct();
+			
 			// Figure out the remote IP
 			$remoteIP = (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : null);
 			if (strstr($remoteIP, ','))
@@ -53,7 +55,7 @@
 		
 			$user = $this->db->query($sql, $sqlParams);
 		
-			return $user;
+			return $user->row();
 		}
 		
 		/**
@@ -74,7 +76,7 @@
 		
 			$user = $this->db->query($sql, $sqlParams);
 		
-			return $user;
+			return $user->row();
 		}
 		
 		/**
@@ -93,7 +95,7 @@
 			
 			$sqlParams = array($userID);
 			
-			$categoryID = $this->db->query($sql, $sqlParams);
+			$categoryID = $this->db->query($sql, $sqlParams)->row()->acc_category_id;
 			
 			return $categoryID;
 		}
@@ -113,7 +115,7 @@
 			
 			$sqlParam = array($categoryName);
 			
-			$categoryID = $this->db->query($sql, $sqlParam);
+			$categoryID = $this->db->query($sql, $sqlParam)->row()->acc_category_id;
 			
 			return $categoryID;
 		}
@@ -127,7 +129,7 @@
 		{
 			$sql = "SELECT * FROM academy";
 			
-			return $this->db->query($sql);
+			return $this->db->query($sql)->result();
 		}
 		
 		/**
@@ -162,7 +164,7 @@
 				$major = $this->db->query($sql, $sqlParam);
 			}		
 			
-			return $major;
+			return $major->result();
 		}
 		
 		/**
@@ -197,7 +199,7 @@
 				$class = $this->db->query($sql, $sqlParam);
 			}		
 			
-			return $class;
+			return $class->result();
 		}
 		
 		/**
@@ -250,7 +252,7 @@
 			
 			$details = $this->db->query($sql, $sqlParams);
 			
-			return $details;
+			return $details->result();
 			
 		}
 		
@@ -271,7 +273,7 @@
 			
 			$collections = $this->db->query($sql, $sqlParams);
 			
-			return $collections;
+			return $collections->result();
 		}
 		
 		/**
@@ -291,7 +293,7 @@
 			
 			$historys = $this->db->query($sql, $sqlParams);
 			
-			return $historys;
+			return $historys->result();
 		}
 		
 		/**
@@ -313,7 +315,7 @@
 			
 			$questions = $this->db->query($sql, $sqlParams);
 			
-			return $questions;
+			return $questions->result();
 		}
 		
 		/**
@@ -338,7 +340,7 @@
 			
 			$replies = $this->db->query($sql, $sqlParam);
 			
-			return $replies;
+			return $replies->result();
 		}
 		
 		/**
@@ -363,7 +365,7 @@
 			
 			$replies = $this->db->query($sql, $sqlParam);
 			
-			return $replies;
+			return $replies->result();
 		}
 		
 		/**
@@ -384,7 +386,7 @@
 			
 			$notes = $this->db->query($sql, $sqlParam);
 			
-			return $notes;
+			return $notes->result();
 		}
 		
 		/**
@@ -412,7 +414,7 @@
 			
 			$tasks = $this->db->query($sql, $sqlParam);
 			
-			return $tasks;
+			return $tasks->result();
 		}
 		
 		/**
@@ -428,7 +430,7 @@
 			
 			$users = $this->db->query($sql);
 			
-			return $users;
+			return $users->result();
 		}
 		
 		/**
@@ -445,7 +447,7 @@
 			
 			$sqlParam = array($userID);
 			
-			return $this->db->query($sql, $sqlParam);
+			return $this->db->query($sql, $sqlParam)->result();
 		}
 		
 		/**
@@ -689,4 +691,4 @@
 	}
 
 /* End of file User.php */
-/* Location: ./application/libraries/User.php */
+/* Location: ./application/models/User.php */

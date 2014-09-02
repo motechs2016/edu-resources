@@ -10,11 +10,11 @@
 	 * @author Chong Liu
 	 * @copyright 2014 Ivory Tower
 	 */
-	class Menu{
+	class Menu extends CI_Model{
 		
 		public function __construct()
 		{
-			
+			parent::__construct();
 		}
 		
 		/**
@@ -35,7 +35,7 @@
 			
 			$menu = $this->db->query($sql, $sqlParam);
 			
-			return $menu;
+			return $menu->result();
 		}
 		
 		/**
@@ -56,7 +56,7 @@
 				
 			$menu = $this->db->query($sql, $sqlParam);
 				
-			return $menu;
+			return $menu->result();
 		}
 		
 		/**
@@ -73,12 +73,11 @@
 						LEFT JOIN privilege_setting ps ON m.menu_id = ps.menu_id
 						WHERE acc_category_id = ? AND level = ? AND privi_id = 1";
 				
-			$sqlParam = array('acc_categoryID' => $categoryID,
-							  'level'	   => $level);
-				
+			$sqlParam = array($categoryID, $level);
+			
 			$menu = $this->db->query($sql, $sqlParam);
-				
-			return $menu;
+			
+			return $menu->result();
 		}
 		
 		/**
@@ -89,9 +88,9 @@
 		{
 			$sql = "SELECT MAX(level) AS level From menu";
 			
-			$level = $this->db->query($sql);
+			$level = $this->db->query($sql)->row();
 			
-			return $level;
+			return $level->level;
 		}
 		
 		/*************************************************************************************
@@ -203,3 +202,5 @@
 			return $params;
 		}
 	}
+/* End of file Menu.php */
+/* Location: ./application/models/Menu.php */
